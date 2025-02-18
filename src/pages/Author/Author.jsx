@@ -10,9 +10,11 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "./Author.css";
+import InputHandler from "../../components/InputHandler/InputHandler";
+import TableHeader from "../../components/TableHeader/TableHeader";
+import { Update } from "@mui/icons-material";
 
 const initialAuthor = {
   name: "",
@@ -20,15 +22,17 @@ const initialAuthor = {
   country: "",
 };
 
+
 const BaseUrl = "http://localhost:8080";
 
 export default function Author() {
-  const [newAuthor, setNewAuthor] = useState();
+  const [newAuthor, setNewAuthor] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [updateAuthor, setUpdateAuthor] = useState(initialAuthor);
   const [update, setUpdate] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+
   useEffect(() => {
     const getAuthors = async () => {
       try {
@@ -79,7 +83,10 @@ export default function Author() {
   };
 
   const handleUpdateAuthor = async () => {
-    await axios.put(BaseUrl + '/api/v1/authors/'+ updateAuthor.id, updateAuthor);
+    await axios.put(
+      BaseUrl + "/api/v1/authors/" + updateAuthor.id,
+      updateAuthor
+    );
     setUpdateAuthor(initialAuthor);
     handleAlert("Doctor Updated");
     setUpdate(false);
@@ -87,23 +94,29 @@ export default function Author() {
 
   return (
     <div>
-        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
         New Author
       </Typography>
       <div className="post">
-        {Object.keys(initialAuthor).map((key) => {
+        {/* {Object.keys(initialAuthor).map((key) => {
           return (
             <TextField
               key={key}
               id="outlined-basic"
               label={key}
               variant="outlined"
+              value={newAuthor[key]}
               onChange={(e) =>
                 setNewAuthor({ ...newAuthor, [key]: e.target.value })
               }
             />
           );
-        })}
+        })} */}
+        <InputHandler
+          initial={initialAuthor}
+          inputState={newAuthor}
+          inputStateSetter={setNewAuthor}
+        />
         <Button variant="contained" onClick={handlePost}>
           Add Author Doctor
         </Button>
@@ -113,7 +126,7 @@ export default function Author() {
         Update Author
       </Typography>
       <div className="post">
-        {Object.keys(initialAuthor).map((key) => {
+        {/* {Object.keys(initialAuthor).map((key) => {
           return (
             <TextField
               key={key}
@@ -126,7 +139,12 @@ export default function Author() {
               }
             />
           );
-        })}
+        })} */}
+        <InputHandler
+          initial={initialAuthor}
+          inputState={updateAuthor}
+          inputStateSetter={setUpdateAuthor}
+        />
         <Button variant="contained" onClick={handleUpdateAuthor}>
           Update Author
         </Button>
@@ -138,14 +156,15 @@ export default function Author() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
+            {/* <TableRow>
               <TableCell align="center">ID</TableCell>
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Birthday</TableCell>
               <TableCell align="center">Country</TableCell>
               <TableCell align="center">Delete</TableCell>
               <TableCell align="center">Edit</TableCell>
-            </TableRow>
+            </TableRow> */}
+            <TableHeader initial={initialAuthor} />
           </TableHead>
           <TableBody>
             {authors?.map((authors) => (
@@ -153,7 +172,6 @@ export default function Author() {
                 key={authors.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="center">{authors.id}</TableCell>
                 <TableCell align="center" component="th" scope="row">
                   {authors.name}
                 </TableCell>
@@ -163,8 +181,23 @@ export default function Author() {
                   <DeleteIcon onClick={() => handleDelete(authors.id)} />
                 </TableCell>
                 <TableCell align="center">
-                  <EditIcon onClick={() =>handleUpdateForm(authors)}/>
+                  <EditIcon onClick={() => handleUpdateForm(authors)} />
                 </TableCell>
+                {/* {Object.keys(authors).map((key) => (
+                  <TableCell align="center">{authors[key]}</TableCell>
+                ))} */}
+                {/* <TableCell align="center">
+                  <DeleteIcon
+                    onClick={() => handleDelete(authors.id)}
+                    
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <EditIcon
+                    
+                    onClick={() => handleUpdateForm(authors)}
+                  />
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
