@@ -184,7 +184,7 @@ export default function Author() {
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <h1>{alertMessage}</h1>}
+      {alert && <Typography variant="h6">{alertMessage}</Typography>}
     </div>
   );
 }

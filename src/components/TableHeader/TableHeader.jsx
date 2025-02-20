@@ -7,6 +7,8 @@ function TableHeader({ initial }) {
       {Object.keys(initial).map((key) => (
         <TableCell align="center">{key}</TableCell>
       ))}
+      <TableCell align="center">Delete</TableCell>
+      <TableCell align="center">Edit</TableCell>
     </TableRow>
   );
 }

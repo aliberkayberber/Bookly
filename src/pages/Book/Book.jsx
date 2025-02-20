@@ -1,21 +1,230 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { Typography } from "@mui/material";
+import Button from "@mui/material/Button";
+import InputHandler from "../../components/InputHandler/InputHandler";
+import TableHeader from "../../components/TableHeader/TableHeader";
+import { Update } from "@mui/icons-material";
+
+const initialBook = {
+  name: "",
+  publicationYear: "",
+  stock: "",
+  author: {},
+  publisher: {},
+  categories: {},
+};
+
+const BaseUrl = "http://localhost:8080";
 
 export default function Book() {
+  const [newBook, setNewBook] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [publishers, setPublishers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [updateBook, setUpdateBook] = useState(initialBook);
+  const [update, setUpdate] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-  const initialBook = {
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
+  useEffect(() => {
+    const getBooks = async () => {
+      try {
+        const response = await axios.get(BaseUrl + "/api/v1/books");
+        setBooks(response.data);
+        console.log(response.data);
+        setUpdate(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getAuthors = async () => {
+      try {
+        const response = await axios.get(BaseUrl + "/api/v1/authors");
+        setAuthors(response.data);
+        console.log(response.data);
+        setUpdate(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getPublishers = async () => {
+      try {
+        const response = await axios.get(BaseUrl + "/api/v1/publishers");
+        setPublishers(response.data);
+        console.log(response.data);
+        setUpdate(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getCategories = async () => {
+      try {
+        const response = await axios.get(BaseUrl + "/api/v1/categories");
+        setCategories(response.data);
+        setUpdate(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    
+    getAuthors();
+    getPublishers();
+    getCategories();
+    getBooks();
+    console.log(books);
+  }, [update]);
+
+  const handleAlert = (alertM) => {
+    setAlertMessage(alertM);
+    setAlert(true);
+    setTimeout(() => {
+      setAlert(false);
+    }, 3000);
   };
 
+  const handlePost = async () => {
+    console.log("newBook");
+    console.log(newBook);
+    authors.map((author) => {
+      if (author.id === newBook.author.id) {
+        newBook.author = author;
+      }
+    });
+    publishers.map((publisher) => {
+      if (publisher.id === newBook.publisher.id) {
+        newBook.publisher = publisher;
+      }
+    });
+    categories.map((category) => {
+      if (category.id === newBook.categories.id) {
+        newBook.categories = [category];
+      }
+    });
+    try {
+      await axios.post(BaseUrl + "/api/v1/books", newBook);
+      setUpdate(false);
+      handleAlert("Book Added");
+      setNewBook(initialBook);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(BaseUrl + "/api/v1/books/" + id);
+      handleAlert("Book Deleted");
+      setUpdate(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateForm = (book) => {
+    setUpdateBook(book);
+    console.log(book);
+  };
+
+  const handleUpdateBook = async () => {
+    try {
+      await axios.put(BaseUrl + "/api/v1/books/" + updateBook.id, updateBook);
+      setUpdateBook(initialBook);
+      handleAlert("Book Updated");
+      setUpdate(false);
+    } catch (error) {
+      console.error;
+    }
+  };
 
   return (
     <div>
-      <h1>Book</h1>
+      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+        New Book
+      </Typography>
+      <div className="post">
+        <InputHandler
+          initial={initialBook}
+          inputState={newBook}
+          inputStateSetter={setNewBook}
+          author={authors}
+          publisher={publishers}
+          category={categories}
+          />
+          <Button variant="contained" onClick={handlePost}>
+          Add Book
+        </Button>
+      </div>
+
+      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+        Update Book
+      </Typography>
+      <div className="post">
+        <InputHandler
+          initial={initialBook}
+          inputState={updateBook}
+          inputStateSetter={setUpdateBook}
+          author={authors}
+          publisher={publishers}
+          category={categories}
+          />
+          <Button variant="contained" onClick={handleUpdateBook}>
+          Update Book
+        </Button>
+      </div>
+
+      <Typography variant="h3" align="center" gutterBottom>
+        Books
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableHeader initial={initialBook} />
+          </TableHead>
+          <TableBody>
+            {books?.map((book) => (
+              <TableRow key={book.id}>
+                <TableCell align="center">{book.name}</TableCell>
+                <TableCell align="center">
+                  {book.publicationYear}
+                </TableCell>
+                <TableCell align="center">{book.stock}</TableCell>
+                <TableCell align="center">{book.author.name}</TableCell>
+                <TableCell align="center">{book.publisher.name}</TableCell>
+                <TableCell align="center">
+                  {book.categories.map((category) => category.name).join(", ")}
+                </TableCell>
+                {console.log(book.categories)}
+                <TableCell align="center">
+                  <DeleteIcon onClick={() => handleDelete(book.id)} />
+                </TableCell>
+                <TableCell align="center">
+                  <EditIcon onClick={() => handleUpdateForm(book)} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
     </div>
+
+    
+
+
   );
 }
