@@ -68,7 +68,7 @@ function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -79,7 +79,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Bookly
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -123,7 +123,8 @@ function Navbar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
+            link
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -135,7 +136,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Bookly
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

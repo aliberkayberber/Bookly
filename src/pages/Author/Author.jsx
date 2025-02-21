@@ -15,6 +15,8 @@ import "./Author.css";
 import InputHandler from "../../components/InputHandler/InputHandler";
 import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialAuthor = {
   name: "",
@@ -30,8 +32,7 @@ export default function Author() {
   const [authors, setAuthors] = useState([]);
   const [updateAuthor, setUpdateAuthor] = useState(initialAuthor);
   const [update, setUpdate] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+
 
   useEffect(() => {
     const getAuthors = async () => {
@@ -42,38 +43,81 @@ export default function Author() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
+        toast('Author could not be Fetched', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progressx: undefined,
+          });
       }
     };
 
     getAuthors();
   }, [update]);
 
-  const handleAlert = (alertM) => {
-    setAlertMessage(alertM);
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  };
+  // const handleAlert = (alertM) => {
+  //   setAlertMessage(alertM);
+  //   setAlert(true);
+  //   setTimeout(() => {
+  //     setAlert(false);
+  //   }, 3000);
+  // };
 
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/authors", newAuthor);
       setUpdate(false);
-      handleAlert("Author Added");
+      toast('Author Added', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
       setNewAuthor(initialAuthor);
     } catch (error) {
       console.error(error);
+      toast('Author could not be Added', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
     }
   };
 
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(BaseUrl + "/api/v1/authors/" + id);
-      handleAlert("Author Deleted");
+      toast('Author Deleted', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
       setUpdate(false);
     } catch (error) {
       console.error(error);
+      toast('Author could not be Deleted', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
     }
   };
 
@@ -83,13 +127,36 @@ export default function Author() {
   };
 
   const handleUpdateAuthor = async () => {
-    await axios.put(
-      BaseUrl + "/api/v1/authors/" + updateAuthor.id,
-      updateAuthor
-    );
-    setUpdateAuthor(initialAuthor);
-    handleAlert("Doctor Updated");
-    setUpdate(false);
+    try {
+      await axios.put(
+        BaseUrl + "/api/v1/authors/" + updateAuthor.id,
+        updateAuthor
+      );
+      setUpdateAuthor(initialAuthor);
+      //handleAlert("Doctor Updated");
+      toast('Author Updated', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
+      setUpdate(false);
+    } catch (error) {
+      console.error(error);
+      toast('Author could not be Updated', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+        });
+    }
+
   };
 
   return (
@@ -203,7 +270,7 @@ export default function Author() {
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <Typography variant="h6">{alertMessage}</Typography>}
+      <ToastContainer/>
     </div>
   );
 }

@@ -14,7 +14,8 @@ import Button from "@mui/material/Button";
 import InputHandler from "../../components/InputHandler/InputHandler";
 import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const initialBook = {
   name: "",
   publicationYear: "",
@@ -34,8 +35,8 @@ export default function Book() {
   const [categories, setCategories] = useState([]);
   const [updateBook, setUpdateBook] = useState(initialBook);
   const [update, setUpdate] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  // const [alert, setAlert] = useState(false);
+  // const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const getBooks = async () => {
@@ -46,6 +47,15 @@ export default function Book() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
+        toast("Book could not be Fetched", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progressx: undefined,
+        });
       }
     };
 
@@ -81,7 +91,6 @@ export default function Book() {
       }
     };
 
-    
     getAuthors();
     getPublishers();
     getCategories();
@@ -89,17 +98,15 @@ export default function Book() {
     console.log(books);
   }, [update]);
 
-  const handleAlert = (alertM) => {
-    setAlertMessage(alertM);
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  };
+  // const handleAlert = (alertM) => {
+  //   setAlertMessage(alertM);
+  //   setAlert(true);
+  //   setTimeout(() => {
+  //     setAlert(false);
+  //   }, 3000);
+  // };
 
   const handlePost = async () => {
-    console.log("newBook");
-    console.log(newBook);
     authors.map((author) => {
       if (author.id === newBook.author.id) {
         newBook.author = author;
@@ -118,36 +125,106 @@ export default function Book() {
     try {
       await axios.post(BaseUrl + "/api/v1/books", newBook);
       setUpdate(false);
-      handleAlert("Book Added");
+      // handleAlert("Book Added");
+      toast("Book Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       setNewBook(initialBook);
+      document.location.reload();
     } catch (error) {
       console.error(error);
+      toast("Book could not be Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(BaseUrl + "/api/v1/books/" + id);
-      handleAlert("Book Deleted");
+      //handleAlert("Book Deleted");
+      toast("Book Deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       setUpdate(false);
     } catch (error) {
       console.error(error);
+      toast("Book could not be Deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
   const handleUpdateForm = (book) => {
     setUpdateBook(book);
-    console.log(book);
   };
 
   const handleUpdateBook = async () => {
+    authors.map((author) => {
+      if (author.id === updateBook.author.id) {
+        updateBook.author = author;
+      }
+    });
+    publishers.map((publisher) => {
+      if (publisher.id === updateBook.publisher.id) {
+        updateBook.publisher = publisher;
+      }
+    });
+    categories.map((category) => {
+      if (category.id === updateBook.categories.id) {
+        updateBook.categories = [category];
+      }
+    });
     try {
       await axios.put(BaseUrl + "/api/v1/books/" + updateBook.id, updateBook);
       setUpdateBook(initialBook);
-      handleAlert("Book Updated");
+      //handleAlert("Book Updated");
+      toast("Book Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       setUpdate(false);
+      document.location.reload();
     } catch (error) {
       console.error;
+      toast("Book could not be Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
@@ -164,8 +241,8 @@ export default function Book() {
           author={authors}
           publisher={publishers}
           category={categories}
-          />
-          <Button variant="contained" onClick={handlePost}>
+        />
+        <Button variant="contained" onClick={handlePost}>
           Add Book
         </Button>
       </div>
@@ -181,8 +258,8 @@ export default function Book() {
           author={authors}
           publisher={publishers}
           category={categories}
-          />
-          <Button variant="contained" onClick={handleUpdateBook}>
+        />
+        <Button variant="contained" onClick={handleUpdateBook}>
           Update Book
         </Button>
       </div>
@@ -199,9 +276,7 @@ export default function Book() {
             {books?.map((book) => (
               <TableRow key={book.id}>
                 <TableCell align="center">{book.name}</TableCell>
-                <TableCell align="center">
-                  {book.publicationYear}
-                </TableCell>
+                <TableCell align="center">{book.publicationYear}</TableCell>
                 <TableCell align="center">{book.stock}</TableCell>
                 <TableCell align="center">{book.author.name}</TableCell>
                 <TableCell align="center">{book.publisher.name}</TableCell>
@@ -220,11 +295,7 @@ export default function Book() {
           </TableBody>
         </Table>
       </TableContainer>
-
+      <ToastContainer />
     </div>
-
-    
-
-
   );
 }

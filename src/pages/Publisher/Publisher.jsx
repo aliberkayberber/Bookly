@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import InputHandler from "../../components/InputHandler/InputHandler";
 import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialPublisher = {
   name: "",
@@ -28,8 +30,8 @@ export default function Publisher() {
   const [publishers, setPublishers] = useState([]);
   const [updatePublisher, setUpdatePublisher] = useState(initialPublisher);
   const [update, setUpdate] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  // const [alert, setAlert] = useState(false);
+  // const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const getPublishers = async () => {
@@ -40,28 +42,55 @@ export default function Publisher() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
+        toast("Publisher could not be Fetched", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progressx: undefined,
+        });
       }
     };
 
     getPublishers();
   }, [update]);
 
-  const handleAlert = (alertM) => {
-    setAlertMessage(alertM);
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  };
+  // const handleAlert = (alertM) => {
+  //   setAlertMessage(alertM);
+  //   setAlert(true);
+  //   setTimeout(() => {
+  //     setAlert(false);
+  //   }, 3000);
+  // };
 
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/publishers", newPublisher);
       setUpdate(false);
       setNewPublisher(initialPublisher);
-      handleAlert("Publisher Added");
+      //handleAlert("Publisher Added");
+      toast("Publisher Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     } catch (error) {
       console.error(error);
+      toast("Publisher could not be Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
@@ -69,8 +98,26 @@ export default function Publisher() {
     try {
       await axios.delete(BaseUrl + "/api/v1/publishers/" + id);
       setUpdate(false);
-      handleAlert("Publisher Deleted");
+      //handleAlert("Publisher Deleted");
+      toast("Publisher Deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     } catch (error) {
+      toast("Publisher could not be Deleted ", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       console.error(error);
     }
   };
@@ -87,9 +134,27 @@ export default function Publisher() {
       );
       setUpdatePublisher(initialPublisher);
       setUpdate(false);
-      handleAlert("Publisher Updated");
+      //handleAlert("Publisher Updated");
+      toast("Publisher Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     } catch (error) {
       console.error(error);
+      toast("Publisher could not be Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
@@ -151,7 +216,7 @@ export default function Publisher() {
         </Table>
       </TableContainer>
 
-      {alert && <Typography variant="h6">{alertMessage}</Typography>}
+      <ToastContainer />
     </div>
   );
 }

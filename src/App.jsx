@@ -6,12 +6,18 @@ import Author from "./pages/Author/Author";
 import Borrow from "./pages/Borrow/Borrow";
 import Category from "./pages/Category/Category";
 import Publisher from "./pages/Publisher/Publisher";
+import Home from "./pages/Home/Home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
       <Navbar />
       <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
         <Route path="/book">
           <Book />
         </Route>
@@ -27,7 +33,7 @@ function App() {
         <Route path="/publisher">
           <Publisher />
         </Route>
-      </Switch> 
+      </Switch>
     </>
   );
 }

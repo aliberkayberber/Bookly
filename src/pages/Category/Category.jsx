@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import InputHandler from "../../components/InputHandler/InputHandler";
 import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialCategory = {
   name: "",
@@ -27,11 +29,11 @@ export default function Author() {
   const [category, setCategory] = useState([]);
   const [updateCategory, setUpdateCategory] = useState(initialCategory);
   const [update, setUpdate] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  // const [alert, setAlert] = useState(false);
+  // const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
-    const getAuthors = async () => {
+    const getCategories = async () => {
       try {
         const response = await axios.get(BaseUrl + "/api/v1/categories");
         setCategory(response.data);
@@ -39,38 +41,81 @@ export default function Author() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
+        toast("Category could not be Fetched", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progressx: undefined,
+        });
       }
     };
 
-    getAuthors();
+    getCategories();
   }, [update]);
 
-  const handleAlert = (alertM) => {
-    setAlertMessage(alertM);
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-  };
+  // const handleAlert = (alertM) => {
+  //   setAlertMessage(alertM);
+  //   setAlert(true);
+  //   setTimeout(() => {
+  //     setAlert(false);
+  //   }, 3000);
+  // };
 
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/categories", newCategory);
       setUpdate(false);
-      handleAlert("Category Added");
+      toast("Category Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       setNewCategory(initialCategory);
     } catch (error) {
       console.error(error);
+      toast("Category could not be Added", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(BaseUrl + "/api/v1/categories/" + id);
-      handleAlert("Author Deleted");
+      toast("Category Deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
       setUpdate(false);
     } catch (error) {
       console.error(error);
+      toast("Category could not be Deleted", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
     }
   };
 
@@ -80,13 +125,35 @@ export default function Author() {
   };
 
   const handleUpdateCategory = async () => {
-    await axios.put(
-      BaseUrl + "/api/v1/categories/" + updateCategory.id,
-      updateCategory
-    );
-    setUpdateCategory(initialCategory);
-    handleAlert("Category Updated");
-    setUpdate(false);
+    try {
+      await axios.put(
+        BaseUrl + "/api/v1/categories/" + updateCategory.id,
+        updateCategory
+      );
+      setUpdateCategory(initialCategory);
+      toast("Category Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
+      setUpdate(false);
+    } catch (error) {
+      console.error(error);
+      toast("Category could not be Updated", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progressx: undefined,
+      });
+    }
+
   };
 
   return (
@@ -148,7 +215,7 @@ export default function Author() {
       </div>
 
       <Typography variant="h3" align="center" gutterBottom>
-      Category
+        Category
       </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -184,7 +251,7 @@ export default function Author() {
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <Typography variant="h6">{alertMessage}</Typography>}
+      <ToastContainer/>
     </div>
   );
 }
