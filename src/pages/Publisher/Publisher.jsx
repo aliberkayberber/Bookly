@@ -16,6 +16,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../../App.css";
 
 // Initial state for a new publisher
 const initialPublisher = {
@@ -159,65 +160,70 @@ export default function Publisher() {
 
   return (
     <div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        New Publisher
-      </Typography>
-      <div className="post">
-        {/* Input fields for adding a new publisher */}
-        <InputHandler
-          initial={initialPublisher}
-          inputState={newPublisher}
-          inputStateSetter={setNewPublisher}
-        />
-        <Button variant="contained" onClick={handlePost}>
-          Add Publisher
-        </Button>
+      <div className="page-container">
+        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+          New Publisher
+        </Typography>
+        <div className="post">
+          {/* Input fields for adding a new publisher */}
+          <InputHandler
+            initial={initialPublisher}
+            inputState={newPublisher}
+            inputStateSetter={setNewPublisher}
+          />
+          <Button variant="contained" onClick={handlePost}>
+            Add Publisher
+          </Button>
+        </div>
       </div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        Update Publisher
-      </Typography>
-      <div className="post">
-        {/* Input fields for updating an existing publisher */}
-        <InputHandler
-          initial={initialPublisher}
-          inputState={updatePublisher}
-          inputStateSetter={setUpdatePublisher}
-        />
-        <Button variant="contained" onClick={handleUpdatePublisher}>
+      <div className="page-container">
+        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
           Update Publisher
-        </Button>
+        </Typography>
+        <div className="post">
+          {/* Input fields for updating an existing publisher */}
+          <InputHandler
+            initial={initialPublisher}
+            inputState={updatePublisher}
+            inputStateSetter={setUpdatePublisher}
+          />
+          <Button variant="contained" onClick={handleUpdatePublisher}>
+            Update Publisher
+          </Button>
+        </div>
       </div>
 
-      <Typography variant="h3" align="center" gutterBottom>
-        Publisher
-      </Typography>
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            {/* Table header */}
-            <TableHeader initial={initialPublisher} />
-          </TableHead>
-          <TableBody>
-            {/* Table rows for displaying publishers */}
-            {publishers?.map((publisher) => (
-              <TableRow key={publisher.id}>
-                <TableCell align="center">{publisher.name}</TableCell>
-                <TableCell align="center">
-                  {publisher.establishmentYear}
-                </TableCell>
-                <TableCell align="center">{publisher.address}</TableCell>
-                <TableCell align="center">
-                  <DeleteIcon onClick={() => handleDelete(publisher.id)} />
-                </TableCell>
-                <TableCell align="center">
-                  <EditIcon onClick={() => handleUpdateForm(publisher)} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div className="page-table">
+        <Typography variant="h3" align="center" gutterBottom>
+          Publisher
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              {/* Table header */}
+              <TableHeader initial={initialPublisher} />
+            </TableHead>
+            <TableBody>
+              {/* Table rows for displaying publishers */}
+              {publishers?.map((publisher) => (
+                <TableRow key={publisher.id}>
+                  <TableCell align="center">{publisher.name}</TableCell>
+                  <TableCell align="center">
+                    {publisher.establishmentYear}
+                  </TableCell>
+                  <TableCell align="center">{publisher.address}</TableCell>
+                  <TableCell align="center">
+                    <DeleteIcon onClick={() => handleDelete(publisher.id)} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <EditIcon onClick={() => handleUpdateForm(publisher)} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
 
       <ToastContainer />
     </div>

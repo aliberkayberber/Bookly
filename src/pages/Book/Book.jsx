@@ -16,6 +16,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../../App.css";
 
 // Initial state for a new book
 const initialBook = {
@@ -230,75 +231,81 @@ export default function Book() {
 
   return (
     <div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        New Book
-      </Typography>
-      <div className="post">
-        {/* Input fields for adding a new book */}
-        <InputHandler
-          initial={initialBook}
-          inputState={newBook}
-          inputStateSetter={setNewBook}
-          author={authors}
-          publisher={publishers}
-          category={categories}
-        />
-        <Button variant="contained" onClick={handlePost}>
-          Add Book
-        </Button>
+      <div className="page-container">
+        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+          New Book
+        </Typography>
+        <div className="post">
+          {/* Input fields for adding a new book */}
+          <InputHandler
+            initial={initialBook}
+            inputState={newBook}
+            inputStateSetter={setNewBook}
+            author={authors}
+            publisher={publishers}
+            category={categories}
+          />
+          <Button variant="contained" onClick={handlePost}>
+            Add Book
+          </Button>
+        </div>
       </div>
 
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        Update Book
-      </Typography>
-      <div className="post">
-        {/* Input fields for updating an existing book */}
-        <InputHandler
-          initial={initialBook}
-          inputState={updateBook}
-          inputStateSetter={setUpdateBook}
-          author={authors}
-          publisher={publishers}
-          category={categories}
-        />
-        <Button variant="contained" onClick={handleUpdateBook}>
+      <div className="page-container">
+        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
           Update Book
-        </Button>
+        </Typography>
+        <div className="post">
+          {/* Input fields for updating an existing book */}
+          <InputHandler
+            initial={initialBook}
+            inputState={updateBook}
+            inputStateSetter={setUpdateBook}
+            author={authors}
+            publisher={publishers}
+            category={categories}
+          />
+          <Button variant="contained" onClick={handleUpdateBook}>
+            Update Book
+          </Button>
+        </div>
       </div>
 
-      <Typography variant="h3" align="center" gutterBottom>
-        Books
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            {/* Table header */}
-            <TableHeader initial={initialBook} />
-          </TableHead>
-          <TableBody>
-            {/* Table rows for displaying books */}
-            {books?.map((book) => (
-              <TableRow key={book.id}>
-                <TableCell align="center">{book.name}</TableCell>
-                <TableCell align="center">{book.publicationYear}</TableCell>
-                <TableCell align="center">{book.stock}</TableCell>
-                <TableCell align="center">{book.author.name}</TableCell>
-                <TableCell align="center">{book.publisher.name}</TableCell>
-                <TableCell align="center">
-                  {book.categories.map((category) => category.name).join(", ")}
-                </TableCell>
-                {console.log(book.categories)}
-                <TableCell align="center">
-                  <DeleteIcon onClick={() => handleDelete(book.id)} />
-                </TableCell>
-                <TableCell align="center">
-                  <EditIcon onClick={() => handleUpdateForm(book)} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div className="page-table">
+        <Typography variant="h3" align="center" gutterBottom>
+          Books
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              {/* Table header */}
+              <TableHeader initial={initialBook} />
+            </TableHead>
+            <TableBody>
+              {/* Table rows for displaying books */}
+              {books?.map((book) => (
+                <TableRow key={book.id}>
+                  <TableCell align="center">{book.name}</TableCell>
+                  <TableCell align="center">{book.publicationYear}</TableCell>
+                  <TableCell align="center">{book.stock}</TableCell>
+                  <TableCell align="center">{book.author.name}</TableCell>
+                  <TableCell align="center">{book.publisher.name}</TableCell>
+                  <TableCell align="center">
+                    {book.categories.map((category) => category.name).join(", ")}
+                  </TableCell>
+                  {console.log(book.categories)}
+                  <TableCell align="center">
+                    <DeleteIcon onClick={() => handleDelete(book.id)} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <EditIcon onClick={() => handleUpdateForm(book)} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
       <ToastContainer />
     </div>
   );

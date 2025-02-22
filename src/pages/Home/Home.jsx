@@ -1,9 +1,9 @@
 import React from 'react';
-import { Typography, Container, Button, Grid, Paper, Box } from '@mui/material';
+import { Typography, Container, Grid, Paper, Box } from '@mui/material';
 
 const Home = () => {
     return (
-        <Container maxWidth="lg" style={{ marginTop: '50px' }}>
+        <Container className='page-container' maxWidth="lg" style={{ marginTop: '50px' }}>
             <Box textAlign="center" mb={5}>
                 <Typography variant="h2" gutterBottom>
                     Welcome to Bookly

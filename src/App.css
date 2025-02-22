@@ -10,3 +10,40 @@
   justify-content: center;
   gap: 10px;
 }
+
+.page-container {
+  width: 60%;
+  margin: 15px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+
+}
+
+.page-table {
+  width: 100%;
+  margin: 15px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  border-collapse: collapse;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.nav-link.active {
+  background-color: white;
+  border-radius: 1px;
+  color: black;
+}
+
+.nav-link:hover {
+  background-color: #444;
+  color:White;
+}

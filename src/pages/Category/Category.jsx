@@ -16,6 +16,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../../App.css";
 
 // Initial state for a new category
 const initialCategory = {
@@ -152,73 +153,83 @@ export default function Author() {
         progressx: undefined,
       });
     }
-
   };
 
   return (
     <div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        New Category
-      </Typography>
-      <div className="post">
-        {/* Input fields for adding a new category */}
-        <InputHandler
-          initial={initialCategory}
-          inputState={newCategory}
-          inputStateSetter={setNewCategory}
-        />
-        <Button variant="contained" onClick={handlePost}>
-          Add Category
-        </Button>
+      <div className="page-container">
+        <Typography
+          variant="h4"
+          style={{ textAlign: "center", margin: "20px" }}
+        >
+          New Category
+        </Typography>
+        <div className="post">
+          {/* Input fields for adding a new category */}
+          <InputHandler
+            initial={initialCategory}
+            inputState={newCategory}
+            inputStateSetter={setNewCategory}
+          />
+          <Button variant="contained" onClick={handlePost}>
+            Add Category
+          </Button>
+        </div>
       </div>
 
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        Update Category
-      </Typography>
-      <div className="post">
-        {/* Input fields for updating an existing category */}
-        <InputHandler
-          initial={initialCategory}
-          inputState={updateCategory}
-          inputStateSetter={setUpdateCategory}
-        />
-        <Button variant="contained" onClick={handleUpdateCategory}>
+      <div className="page-container">
+        <Typography
+          variant="h4"
+          style={{ textAlign: "center", margin: "20px" }}
+        >
           Update Category
-        </Button>
+        </Typography>
+        <div className="post">
+          {/* Input fields for updating an existing category */}
+          <InputHandler
+            initial={initialCategory}
+            inputState={updateCategory}
+            inputStateSetter={setUpdateCategory}
+          />
+          <Button variant="contained" onClick={handleUpdateCategory}>
+            Update Category
+          </Button>
+        </div>
       </div>
-
-      <Typography variant="h3" align="center" gutterBottom>
-        Category
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            {/* Table header */}
-            <TableHeader initial={initialCategory} />
-          </TableHead>
-          <TableBody>
-            {/* Table rows for displaying categories */}
-            {category?.map((category) => (
-              <TableRow
-                key={category.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center" component="th" scope="row">
-                  {category.name}
-                </TableCell>
-                <TableCell align="center">{category.description}</TableCell>
-                <TableCell align="center">
-                  <DeleteIcon onClick={() => handleDelete(category.id)} />
-                </TableCell>
-                <TableCell align="center">
-                  <EditIcon onClick={() => handleUpdateForm(category)} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <ToastContainer/>
+      <div className="page-table">
+        <Typography variant="h3" align="center" gutterBottom>
+          Category
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              {/* Table header */}
+              <TableHeader initial={initialCategory} />
+            </TableHead>
+            <TableBody>
+              {/* Table rows for displaying categories */}
+              {category?.map((category) => (
+                <TableRow
+                  key={category.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center" component="th" scope="row">
+                    {category.name}
+                  </TableCell>
+                  <TableCell align="center">{category.description}</TableCell>
+                  <TableCell align="center">
+                    <DeleteIcon onClick={() => handleDelete(category.id)} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <EditIcon onClick={() => handleUpdateForm(category)} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <ToastContainer />
     </div>
   );
 }

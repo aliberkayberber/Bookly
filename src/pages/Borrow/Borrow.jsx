@@ -16,6 +16,7 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../../App.css";
 
 // Initial state for a new borrow
 const initialBorrow = {
@@ -216,67 +217,79 @@ export default function Borrow() {
 
   return (
     <div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        New Book Borrow
-      </Typography>
-      <div className="post">
-        {/* Input fields for adding a new borrow */}
-        <InputHandler
-          initial={firstBorrow}
-          inputState={newBorrow}
-          inputStateSetter={setNewBorrow}
-          book={books}
-        />
-        <Button variant="contained" onClick={handlePost}>
-          Add Book Borrow
-        </Button>
+      <div className="page-container">
+        <Typography
+          variant="h4"
+          style={{ textAlign: "center", margin: "20px" }}
+        >
+          New Book Borrow
+        </Typography>
+        <div className="post">
+          {/* Input fields for adding a new borrow */}
+          <InputHandler
+            initial={firstBorrow}
+            inputState={newBorrow}
+            inputStateSetter={setNewBorrow}
+            book={books}
+          />
+          <Button variant="contained" onClick={handlePost}>
+            Add Book Borrow
+          </Button>
+        </div>
       </div>
 
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
-        Update Book Borrow
-      </Typography>
-      <div className="post">
-        {/* Input fields for updating an existing borrow */}
-        <InputHandler
-          initial={updateBorrowArray}
-          inputState={updateBorrow}
-          inputStateSetter={setUpdateBorrow}
-          book={books}
-        />
-        <Button variant="contained" onClick={handleUpdateBorrow}>
+      <div className="page-container">
+        <Typography
+          variant="h4"
+          style={{ textAlign: "center", margin: "20px" }}
+        >
           Update Book Borrow
-        </Button>
+        </Typography>
+        <div className="post">
+          {/* Input fields for updating an existing borrow */}
+          <InputHandler
+            initial={updateBorrowArray}
+            inputState={updateBorrow}
+            inputStateSetter={setUpdateBorrow}
+            book={books}
+          />
+          <Button variant="contained" onClick={handleUpdateBorrow}>
+            Update Book Borrow
+          </Button>
+        </div>
       </div>
-      <Typography variant="h3" align="center" gutterBottom>
-        Books
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            {/* Table header */}
-            <TableHeader initial={initialBorrow} />
-          </TableHead>
-          <TableBody>
-            {/* Table rows for displaying borrows */}
-            {borrows?.map((borrows) => (
-              <TableRow key={borrows.id}>
-                <TableCell align="center">{borrows.borrowerName}</TableCell>
-                <TableCell align="center">{borrows.borrowerMail}</TableCell>
-                <TableCell align="center">{borrows.borrowingDate}</TableCell>
-                <TableCell align="center">{borrows.returnDate}</TableCell>
-                <TableCell align="center">{borrows.book.name}</TableCell>
-                <TableCell align="center">
-                  <DeleteIcon onClick={() => handleDelete(borrows.id)} />
-                </TableCell>
-                <TableCell align="center">
-                  <EditIcon onClick={() => handleUpdateForm(borrows)} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <ToastContainer />
+      <div className="page-table">
+        <Typography variant="h3" align="center" gutterBottom>
+          Books
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              {/* Table header */}
+              <TableHeader initial={initialBorrow} />
+            </TableHead>
+            <TableBody>
+              {/* Table rows for displaying borrows */}
+              {borrows?.map((borrows) => (
+                <TableRow key={borrows.id}>
+                  <TableCell align="center">{borrows.borrowerName}</TableCell>
+                  <TableCell align="center">{borrows.borrowerMail}</TableCell>
+                  <TableCell align="center">{borrows.borrowingDate}</TableCell>
+                  <TableCell align="center">{borrows.returnDate}</TableCell>
+                  <TableCell align="center">{borrows.book.name}</TableCell>
+                  <TableCell align="center">
+                    <DeleteIcon onClick={() => handleDelete(borrows.id)} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <EditIcon onClick={() => handleUpdateForm(borrows)} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <ToastContainer />
+      </div>
     </div>
   );
 }

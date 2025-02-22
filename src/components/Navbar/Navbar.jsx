@@ -10,8 +10,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
-
+import { Link, NavLink } from "react-router-dom";
+import "../../App.css";
 // Define the pages with their names and links
 const pages = [
   {
@@ -115,16 +115,24 @@ function Navbar() {
             >
               {/* Render menu items for smaller screens */}
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem className="" key={page} onClick={handleCloseNavMenu}>
                   <Typography sx={{ textAlign: "center" }}>
                     {page.name}
-                    <Link to={page.link}>{page.name}</Link>
+                    <NavLink
+                      activeStyle={{
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                      to={page.link}
+                    >
+                      {page.name}
+                    </NavLink>
                   </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          
+
           {/* Logo and title for smaller screens */}
           <Typography
             variant="h5"
@@ -153,7 +161,14 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Link to={page.link}>{page.name}</Link>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                  to={page.link}
+                >
+                  {page.name}
+                </NavLink>
               </Button>
             ))}
           </Box>
@@ -180,7 +195,7 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-               {/* Render user settings menu items */}
+              {/* Render user settings menu items */}
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography sx={{ textAlign: "center" }}>
