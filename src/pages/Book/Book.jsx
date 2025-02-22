@@ -16,6 +16,8 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// Initial state for a new book
 const initialBook = {
   name: "",
   publicationYear: "",
@@ -25,9 +27,12 @@ const initialBook = {
   categories: {},
 };
 
-const BaseUrl = "http://localhost:8080";
+// Base URL for the API
+//const BaseUrl = "http://localhost:8080";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Book() {
+  // State variables for new book, books, authors, publishers, categories, updateBook, and update
   const [newBook, setNewBook] = useState([]);
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
@@ -35,9 +40,8 @@ export default function Book() {
   const [categories, setCategories] = useState([]);
   const [updateBook, setUpdateBook] = useState(initialBook);
   const [update, setUpdate] = useState(false);
-  // const [alert, setAlert] = useState(false);
-  // const [alertMessage, setAlertMessage] = useState("");
 
+  // Fetch books, authors, publishers, and categories from the API when the component mounts or when 'update' changess
   useEffect(() => {
     const getBooks = async () => {
       try {
@@ -47,7 +51,7 @@ export default function Book() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
-        toast("Book could not be Fetched", {
+        toast.error("Book could not be Fetched", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -98,14 +102,7 @@ export default function Book() {
     console.log(books);
   }, [update]);
 
-  // const handleAlert = (alertM) => {
-  //   setAlertMessage(alertM);
-  //   setAlert(true);
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 3000);
-  // };
-
+  // Post a new book to the API
   const handlePost = async () => {
     authors.map((author) => {
       if (author.id === newBook.author.id) {
@@ -139,7 +136,7 @@ export default function Book() {
       document.location.reload();
     } catch (error) {
       console.error(error);
-      toast("Book could not be Added", {
+      toast.error("Book could not be Added", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -151,6 +148,7 @@ export default function Book() {
     }
   };
 
+  // Delete a book from the API
   const handleDelete = async (id) => {
     try {
       await axios.delete(BaseUrl + "/api/v1/books/" + id);
@@ -167,7 +165,7 @@ export default function Book() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast("Book could not be Deleted", {
+      toast.error("Book could not be Deleted", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -179,10 +177,12 @@ export default function Book() {
     }
   };
 
+  // Handle setting the form for updating a book
   const handleUpdateForm = (book) => {
     setUpdateBook(book);
   };
 
+  // Update a book in the API
   const handleUpdateBook = async () => {
     authors.map((author) => {
       if (author.id === updateBook.author.id) {
@@ -216,7 +216,7 @@ export default function Book() {
       document.location.reload();
     } catch (error) {
       console.error;
-      toast("Book could not be Updated", {
+      toast.error("Book could not be Updated", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -234,6 +234,7 @@ export default function Book() {
         New Book
       </Typography>
       <div className="post">
+        {/* Input fields for adding a new book */}
         <InputHandler
           initial={initialBook}
           inputState={newBook}
@@ -251,6 +252,7 @@ export default function Book() {
         Update Book
       </Typography>
       <div className="post">
+        {/* Input fields for updating an existing book */}
         <InputHandler
           initial={initialBook}
           inputState={updateBook}
@@ -270,9 +272,11 @@ export default function Book() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
+            {/* Table header */}
             <TableHeader initial={initialBook} />
           </TableHead>
           <TableBody>
+            {/* Table rows for displaying books */}
             {books?.map((book) => (
               <TableRow key={book.id}>
                 <TableCell align="center">{book.name}</TableCell>

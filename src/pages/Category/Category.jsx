@@ -17,21 +17,24 @@ import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Initial state for a new category
 const initialCategory = {
   name: "",
   description: "",
 };
 
-const BaseUrl = "http://localhost:8080";
+// Base URL for the API
+//const BaseUrl = "http://localhost:8080";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Author() {
+  // State variables
   const [newCategory, setNewCategory] = useState([]);
   const [category, setCategory] = useState([]);
   const [updateCategory, setUpdateCategory] = useState(initialCategory);
   const [update, setUpdate] = useState(false);
-  // const [alert, setAlert] = useState(false);
-  // const [alertMessage, setAlertMessage] = useState("");
 
+  // Fetch categories from the API when the component mounts or when 'update' changes
   useEffect(() => {
     const getCategories = async () => {
       try {
@@ -41,7 +44,7 @@ export default function Author() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
-        toast("Category could not be Fetched", {
+        toast.error("Category could not be Fetched", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -56,14 +59,7 @@ export default function Author() {
     getCategories();
   }, [update]);
 
-  // const handleAlert = (alertM) => {
-  //   setAlertMessage(alertM);
-  //   setAlert(true);
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 3000);
-  // };
-
+  // Function to handle the post request
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/categories", newCategory);
@@ -80,7 +76,7 @@ export default function Author() {
       setNewCategory(initialCategory);
     } catch (error) {
       console.error(error);
-      toast("Category could not be Added", {
+      toast.error("Category could not be Added", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -92,6 +88,7 @@ export default function Author() {
     }
   };
 
+  // Function to handle the delete request
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(BaseUrl + "/api/v1/categories/" + id);
@@ -107,7 +104,7 @@ export default function Author() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast("Category could not be Deleted", {
+      toast.error("Category could not be Deleted", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -119,11 +116,13 @@ export default function Author() {
     }
   };
 
+  // Handle setting the form for updating a category
   const handleUpdateForm = (category) => {
     setUpdateCategory(category);
     console.log(category);
   };
 
+  // Function to handle the update request
   const handleUpdateCategory = async () => {
     try {
       await axios.put(
@@ -143,7 +142,7 @@ export default function Author() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast("Category could not be Updated", {
+      toast.error("Category could not be Updated", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -162,20 +161,7 @@ export default function Author() {
         New Category
       </Typography>
       <div className="post">
-        {/* {Object.keys(initialAuthor).map((key) => {
-          return (
-            <TextField
-              key={key}
-              id="outlined-basic"
-              label={key}
-              variant="outlined"
-              value={newAuthor[key]}
-              onChange={(e) =>
-                setNewAuthor({ ...newAuthor, [key]: e.target.value })
-              }
-            />
-          );
-        })} */}
+        {/* Input fields for adding a new category */}
         <InputHandler
           initial={initialCategory}
           inputState={newCategory}
@@ -190,20 +176,7 @@ export default function Author() {
         Update Category
       </Typography>
       <div className="post">
-        {/* {Object.keys(initialAuthor).map((key) => {
-          return (
-            <TextField
-              key={key}
-              id="outlined-basic"
-              label={key}
-              variant="outlined"
-              value={updateAuthor[key]}
-              onChange={(e) =>
-                setUpdateAuthor((prev) => ({ ...prev, [key]: e.target.value }))
-              }
-            />
-          );
-        })} */}
+        {/* Input fields for updating an existing category */}
         <InputHandler
           initial={initialCategory}
           inputState={updateCategory}
@@ -220,17 +193,11 @@ export default function Author() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            {/* <TableRow>
-              <TableCell align="center">ID</TableCell>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Birthday</TableCell>
-              <TableCell align="center">Country</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Edit</TableCell>
-            </TableRow> */}
+            {/* Table header */}
             <TableHeader initial={initialCategory} />
           </TableHead>
           <TableBody>
+            {/* Table rows for displaying categories */}
             {category?.map((category) => (
               <TableRow
                 key={category.id}

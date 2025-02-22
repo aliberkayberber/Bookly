@@ -17,22 +17,25 @@ import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Initial state for a new publisher
 const initialPublisher = {
   name: "",
   establishmentYear: "",
   address: "",
 };
 
-const BaseUrl = "http://localhost:8080";
+// Base URL for the API
+//const BaseUrl = "http://localhost:8080";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Publisher() {
+  // State variables
   const [newPublisher, setNewPublisher] = useState([]);
   const [publishers, setPublishers] = useState([]);
   const [updatePublisher, setUpdatePublisher] = useState(initialPublisher);
   const [update, setUpdate] = useState(false);
-  // const [alert, setAlert] = useState(false);
-  // const [alertMessage, setAlertMessage] = useState("");
 
+  // Fetch publishers from the API when the component mounts or when 'update' changes
   useEffect(() => {
     const getPublishers = async () => {
       try {
@@ -42,7 +45,7 @@ export default function Publisher() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
-        toast("Publisher could not be Fetched", {
+        toast.error("Publisher could not be Fetched", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -57,14 +60,7 @@ export default function Publisher() {
     getPublishers();
   }, [update]);
 
-  // const handleAlert = (alertM) => {
-  //   setAlertMessage(alertM);
-  //   setAlert(true);
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 3000);
-  // };
-
+  // Post a new publisher to the API
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/publishers", newPublisher);
@@ -82,7 +78,7 @@ export default function Publisher() {
       });
     } catch (error) {
       console.error(error);
-      toast("Publisher could not be Added", {
+      toast.error("Publisher could not be Added", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -94,6 +90,7 @@ export default function Publisher() {
     }
   };
 
+  // Delete a publisher from the API
   const handleDelete = async (id) => {
     try {
       await axios.delete(BaseUrl + "/api/v1/publishers/" + id);
@@ -109,7 +106,7 @@ export default function Publisher() {
         progressx: undefined,
       });
     } catch (error) {
-      toast("Publisher could not be Deleted ", {
+      toast.error("Publisher could not be Deleted ", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -122,10 +119,12 @@ export default function Publisher() {
     }
   };
 
+  // Handle setting the form for updating a publisher
   const handleUpdateForm = (publisher) => {
     setUpdatePublisher(publisher);
   };
 
+  // Update a publisher in the API
   const handleUpdatePublisher = async () => {
     try {
       await axios.put(
@@ -146,7 +145,7 @@ export default function Publisher() {
       });
     } catch (error) {
       console.error(error);
-      toast("Publisher could not be Updated", {
+      toast.error("Publisher could not be Updated", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -164,6 +163,7 @@ export default function Publisher() {
         New Publisher
       </Typography>
       <div className="post">
+        {/* Input fields for adding a new publisher */}
         <InputHandler
           initial={initialPublisher}
           inputState={newPublisher}
@@ -177,6 +177,7 @@ export default function Publisher() {
         Update Publisher
       </Typography>
       <div className="post">
+        {/* Input fields for updating an existing publisher */}
         <InputHandler
           initial={initialPublisher}
           inputState={updatePublisher}
@@ -194,9 +195,11 @@ export default function Publisher() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
+            {/* Table header */}
             <TableHeader initial={initialPublisher} />
           </TableHead>
           <TableBody>
+            {/* Table rows for displaying publishers */}
             {publishers?.map((publisher) => (
               <TableRow key={publisher.id}>
                 <TableCell align="center">{publisher.name}</TableCell>

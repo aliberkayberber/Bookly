@@ -13,23 +13,31 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
+    {/* Navbar component */}
       <Navbar />
+      {/* Switch component to handle routing */}
       <Switch>
+        {/* Route for the home page */}
         <Route path="/" exact>
           <Home />
         </Route>
+        {/* Route for the book page */}
         <Route path="/book">
           <Book />
         </Route>
+        {/* Route for the author page */}
         <Route path="/author">
           <Author />
         </Route>
+        {/* Route for the borrow page */}
         <Route path="/borrow">
           <Borrow />
         </Route>
+        {/* Route for the category page */}
         <Route path="/category">
           <Category />
         </Route>
+        {/* Route for the publisher page */}
         <Route path="/publisher">
           <Publisher />
         </Route>

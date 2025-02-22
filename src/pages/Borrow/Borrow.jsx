@@ -16,6 +16,8 @@ import TableHeader from "../../components/TableHeader/TableHeader";
 import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// Initial state for a new borrow
 const initialBorrow = {
   borrowerName: "",
   borrowerMail: "",
@@ -24,12 +26,14 @@ const initialBorrow = {
   book: {},
 };
 
+// Initial state for updating a borrow
 const updateBorrowArray = {
   borrowerName: "",
   borrowingDate: "",
   returnDate: "",
 };
 
+// Initial state for the first borrow
 const firstBorrow = {
   borrowerName: "",
   borrowerMail: "",
@@ -37,6 +41,7 @@ const firstBorrow = {
   book: {},
 };
 
+// Initial state for posting a borrow
 const postBorrow = {
   borrowerName: "",
   borrowerMail: "",
@@ -49,17 +54,19 @@ const postBorrow = {
   },
 };
 
-const BaseUrl = "http://localhost:8080";
+// Base URL for the API
+//const BaseUrl = "http://localhost:8080";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Borrow() {
+  // State variables
   const [newBorrow, setNewBorrow] = useState(postBorrow);
   const [borrows, setBorrows] = useState([]);
   const [books, setBooks] = useState([]);
   const [updateBorrow, setUpdateBorrow] = useState(updateBorrowArray);
   const [update, setUpdate] = useState(false);
-  // const [alert, setAlert] = useState(false);
-  // const [alertMessage, setAlertMessage] = useState("");
 
+  // Fetch borrows and books from the API when the component mounts or when 'update' changes
   useEffect(() => {
     const getBorrows = async () => {
       try {
@@ -69,7 +76,7 @@ export default function Borrow() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
-        toast("Borrow could not be Fetched", {
+        toast.error("Borrow could not be Fetched", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -95,14 +102,7 @@ export default function Borrow() {
     getBorrows();
   }, [update]);
 
-  // const handleAlert = (alertM) => {
-  //   setAlertMessage(alertM);
-  //   setAlert(true);
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 3000);
-  // };
-
+  // Function to handle the post request
   const handlePost = async () => {
     books.map((book) => {
       if (book.id === newBorrow.bookForBorrowingRequest.id) {
@@ -129,7 +129,7 @@ export default function Borrow() {
       document.location.reload();
     } catch (error) {
       console.error(error);
-      toast("Borrow could not be Added", {
+      toast.error("Borrow could not be Added", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -141,6 +141,7 @@ export default function Borrow() {
     }
   };
 
+  // Function to handle the delete request
   const handleDelete = async (id) => {
     try {
       await axios.delete(BaseUrl + "/api/v1/borrows/" + id);
@@ -157,7 +158,7 @@ export default function Borrow() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast("Borrow could not be Deleted", {
+      toast.error("Borrow could not be Deleted", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -169,10 +170,12 @@ export default function Borrow() {
     }
   };
 
+  // Handle setting the form for updating a borrow
   const handleUpdateForm = (borrow) => {
     setUpdateBorrow(borrow);
   };
 
+  // Function to handle the put request
   const handleUpdateBorrow = async () => {
     books.map((book) => {
       if (book.id === updateBorrow.book.id) {
@@ -199,7 +202,7 @@ export default function Borrow() {
       document.location.reload();
     } catch (error) {
       console.error(error);
-      toast("Borrow could not be Updated", {
+      toast.error("Borrow could not be Updated", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -217,6 +220,7 @@ export default function Borrow() {
         New Book Borrow
       </Typography>
       <div className="post">
+        {/* Input fields for adding a new borrow */}
         <InputHandler
           initial={firstBorrow}
           inputState={newBorrow}
@@ -232,6 +236,7 @@ export default function Borrow() {
         Update Book Borrow
       </Typography>
       <div className="post">
+        {/* Input fields for updating an existing borrow */}
         <InputHandler
           initial={updateBorrowArray}
           inputState={updateBorrow}
@@ -248,9 +253,11 @@ export default function Borrow() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
+            {/* Table header */}
             <TableHeader initial={initialBorrow} />
           </TableHead>
           <TableBody>
+            {/* Table rows for displaying borrows */}
             {borrows?.map((borrows) => (
               <TableRow key={borrows.id}>
                 <TableCell align="center">{borrows.borrowerName}</TableCell>

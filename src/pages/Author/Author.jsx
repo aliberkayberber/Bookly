@@ -18,22 +18,25 @@ import { Update } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Initial state for a new author
 const initialAuthor = {
   name: "",
   birthDate: "",
   country: "",
 };
 
-
-const BaseUrl = "http://localhost:8080";
+// Base URL for the API
+//const BaseUrl = "http://localhost:8080";
+const BaseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function Author() {
+  // State variables
   const [newAuthor, setNewAuthor] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [updateAuthor, setUpdateAuthor] = useState(initialAuthor);
   const [update, setUpdate] = useState(false);
 
-
+  // Fetch authors from the API when the component mounts or when 'update' changes
   useEffect(() => {
     const getAuthors = async () => {
       try {
@@ -43,7 +46,7 @@ export default function Author() {
         setUpdate(true);
       } catch (error) {
         console.error(error);
-        toast('Author could not be Fetched', {
+        toast.error('Author could not be Fetched', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -58,14 +61,7 @@ export default function Author() {
     getAuthors();
   }, [update]);
 
-  // const handleAlert = (alertM) => {
-  //   setAlertMessage(alertM);
-  //   setAlert(true);
-  //   setTimeout(() => {
-  //     setAlert(false);
-  //   }, 3000);
-  // };
-
+  // Handle adding a new author
   const handlePost = async () => {
     try {
       await axios.post(BaseUrl + "/api/v1/authors", newAuthor);
@@ -82,7 +78,7 @@ export default function Author() {
       setNewAuthor(initialAuthor);
     } catch (error) {
       console.error(error);
-      toast('Author could not be Added', {
+      toast.error('Author could not be Added', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -94,6 +90,7 @@ export default function Author() {
     }
   };
 
+  // Handle deleting an author
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(BaseUrl + "/api/v1/authors/" + id);
@@ -109,7 +106,7 @@ export default function Author() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast('Author could not be Deleted', {
+      toast.error('Author could not be Deleted', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -121,11 +118,13 @@ export default function Author() {
     }
   };
 
+  // Handle setting the form for updating an author
   const handleUpdateForm = (author) => {
     setUpdateAuthor(author);
     console.log(author);
   };
 
+  // Handle updating an author
   const handleUpdateAuthor = async () => {
     try {
       await axios.put(
@@ -146,7 +145,7 @@ export default function Author() {
       setUpdate(false);
     } catch (error) {
       console.error(error);
-      toast('Author could not be Updated', {
+      toast.error('Author could not be Updated', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -165,20 +164,7 @@ export default function Author() {
         New Author
       </Typography>
       <div className="post">
-        {/* {Object.keys(initialAuthor).map((key) => {
-          return (
-            <TextField
-              key={key}
-              id="outlined-basic"
-              label={key}
-              variant="outlined"
-              value={newAuthor[key]}
-              onChange={(e) =>
-                setNewAuthor({ ...newAuthor, [key]: e.target.value })
-              }
-            />
-          );
-        })} */}
+        {/* Input fields for adding a new author */}
         <InputHandler
           initial={initialAuthor}
           inputState={newAuthor}
@@ -193,20 +179,7 @@ export default function Author() {
         Update Author
       </Typography>
       <div className="post">
-        {/* {Object.keys(initialAuthor).map((key) => {
-          return (
-            <TextField
-              key={key}
-              id="outlined-basic"
-              label={key}
-              variant="outlined"
-              value={updateAuthor[key]}
-              onChange={(e) =>
-                setUpdateAuthor((prev) => ({ ...prev, [key]: e.target.value }))
-              }
-            />
-          );
-        })} */}
+        {/* Input fields for updating an author */}
         <InputHandler
           initial={initialAuthor}
           inputState={updateAuthor}
@@ -223,17 +196,11 @@ export default function Author() {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            {/* <TableRow>
-              <TableCell align="center">ID</TableCell>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Birthday</TableCell>
-              <TableCell align="center">Country</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Edit</TableCell>
-            </TableRow> */}
+            {/* Table header */}
             <TableHeader initial={initialAuthor} />
           </TableHead>
           <TableBody>
+            {/* Table rows for displaying authors */}
             {authors?.map((authors) => (
               <TableRow
                 key={authors.id}

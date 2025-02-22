@@ -15,11 +15,11 @@ function InputHandler({
   return (
     <div className="input">
       {Object.keys(initial).map((key) => {
+        // Render TextField for all keys except 'author', 'publisher', 'categories', and 'book'
         if (key !== "author" && key !== "publisher" && key !== "categories" && key !== "book") {
           return (
             <TextField
               key={key}
-              
               id="standard-basic"
               label={key === "birthDate" ? " " : key && key === "borrowingDate" ? " " : key && key === "returnDate" ? " " : key && key === "book" ? " " : key}  
               variant="standard"
@@ -30,7 +30,9 @@ function InputHandler({
               }
             />
           );
-        } if (key === "author") {
+        } 
+        // Render Select for 'author'
+        if (key === "author") {
           console.log("author çalıştı");
           return (
             <div key={key}>
@@ -59,8 +61,8 @@ function InputHandler({
             </div>
           );
         }
+        // Render Select for 'publisher'
         if (key === "publisher") {
-          
           return (
             <div key={key}>
               <InputLabel id="demo-simple-select-label">Publisher</InputLabel>
@@ -86,8 +88,8 @@ function InputHandler({
             </div>
           );
         }
+        // Render Select for 'categories'
         if (key === "categories") {
-          
           return (
             <div key={key}>
               <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -113,8 +115,8 @@ function InputHandler({
             </div>
           );
         }
+        // Render Select for 'book'
         if(key === "book") {
-          
           return (
             <div key={key}>
               <InputLabel id="demo-simple-select-label">Book</InputLabel>
@@ -142,18 +144,6 @@ function InputHandler({
             </div>
           );
         }
-
-        // <TextField
-        //   key={key}
-        //   id="standard-basic"
-        //   label={key === "birthDate" ? " " : key}
-        //   variant="standard"
-        //   value={inputState[key]}
-        //   type={key === "birthDate" ? "date" : "text"}
-        //   onChange={(e) =>
-        //     inputStateSetter((prev) => ({ ...prev, [key]: e.target.value }))
-        //   }
-        // />;
       })}
     </div>
   );
