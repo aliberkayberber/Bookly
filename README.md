@@ -1,6 +1,10 @@
 # Bookly
 
-Bookly is a frontend example project designed to showcase a simple book management application. This project demonstrates the use of modern web development technologies to create a responsive and user-friendly interface.
+Bookly is a frontend example project designed to showcase a simple book management application. This project demonstrates the use of modern web development technologies to create a responsive and user-friendly interface. 
+
+## Live Website
+ 
+- https://booklymangerapp.netlify.app/author
 
 ## Features
 
@@ -38,7 +42,7 @@ Bookly is a frontend example project designed to showcase a simple book manageme
     ```sh
     npm start
     ```
-2. Open your browser and navigate to `http://localhost:3000`.
+2. Open your browser and navigate to `http://localhost:8080`.
 
 ## API Endpoints
 
