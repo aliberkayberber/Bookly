@@ -4,7 +4,7 @@ Bookly is a frontend example project designed to showcase a simple book manageme
 
 ## Live Website
  
-- https://booklymangerapp.netlify.app/author
+- https://booklymangerapp.netlify.app/
 
 ## Features
 
