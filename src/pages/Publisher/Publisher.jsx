@@ -159,7 +159,7 @@ export default function Publisher() {
   };
 
   return (
-    <div>
+    <div className="page">
       <div className="page-container">
         <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
           New Publisher
@@ -213,10 +213,12 @@ export default function Publisher() {
                   </TableCell>
                   <TableCell align="center">{publisher.address}</TableCell>
                   <TableCell align="center">
-                    <DeleteIcon onClick={() => handleDelete(publisher.id)} />
+                    <DeleteIcon onClick={() => handleDelete(publisher.id)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => handleUpdateForm(publisher)} />
+                    <EditIcon onClick={() => handleUpdateForm(publisher)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                 </TableRow>
               ))}

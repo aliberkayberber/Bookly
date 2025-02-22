@@ -156,7 +156,7 @@ export default function Author() {
   };
 
   return (
-    <div>
+    <div className="page">
       <div className="page-container">
         <Typography
           variant="h4"
@@ -218,10 +218,12 @@ export default function Author() {
                   </TableCell>
                   <TableCell align="center">{category.description}</TableCell>
                   <TableCell align="center">
-                    <DeleteIcon onClick={() => handleDelete(category.id)} />
+                    <DeleteIcon onClick={() => handleDelete(category.id)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => handleUpdateForm(category)} />
+                    <EditIcon onClick={() => handleUpdateForm(category)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                 </TableRow>
               ))}

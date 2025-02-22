@@ -10,6 +10,9 @@
   justify-content: center;
   gap: 10px;
 }
+.page{
+  margin-top: 80px;
+}
 
 .page-container {
   width: 60%;
@@ -17,7 +20,7 @@
   padding: 20px;
   background-color: #f4f4f4;
   border-radius: 8px;
-
+  
 }
 
 .page-table {
@@ -27,6 +30,21 @@
   background-color: #f4f4f4;
   border-radius: 8px;
   border-collapse: collapse;
+
+}
+
+/* CSS For Navbar Component */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  z-index: 1000;
+  text-decoration: none;
 }
 
 .nav-link {
@@ -34,7 +52,7 @@
   text-decoration: none;
   margin-right: 20px;
   padding: 10px;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .nav-link.active {
@@ -46,4 +64,7 @@
 .nav-link:hover {
   background-color: #444;
   color:White;
+}
+.mouse-pointer {
+  cursor: pointer;
 }

@@ -216,7 +216,7 @@ export default function Borrow() {
   };
 
   return (
-    <div>
+    <div className="page">
       <div className="page-container">
         <Typography
           variant="h4"
@@ -278,10 +278,12 @@ export default function Borrow() {
                   <TableCell align="center">{borrows.returnDate}</TableCell>
                   <TableCell align="center">{borrows.book.name}</TableCell>
                   <TableCell align="center">
-                    <DeleteIcon onClick={() => handleDelete(borrows.id)} />
+                    <DeleteIcon onClick={() => handleDelete(borrows.id)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => handleUpdateForm(borrows)} />
+                    <EditIcon onClick={() => handleUpdateForm(borrows)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                 </TableRow>
               ))}

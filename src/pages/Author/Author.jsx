@@ -159,10 +159,10 @@ export default function Author() {
   };
 
   return (
-    <div>
+    <div className="page">
 
       <div className="page-container">
-        <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+        <Typography variant="h4" style={{ textAlign: "center", margin: "20px",}}>
           New Author
         </Typography>
         <div className="post">
@@ -218,10 +218,12 @@ export default function Author() {
                   <TableCell align="center">{authors.birthDate}</TableCell>
                   <TableCell align="center">{authors.country}</TableCell>
                   <TableCell align="center">
-                    <DeleteIcon onClick={() => handleDelete(authors.id)} />
+                    <DeleteIcon onClick={() => handleDelete(authors.id)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => handleUpdateForm(authors)} />
+                    <EditIcon onClick={() => handleUpdateForm(authors)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                 </TableRow>
               ))}

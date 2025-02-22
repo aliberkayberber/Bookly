@@ -230,7 +230,7 @@ export default function Book() {
   };
 
   return (
-    <div>
+    <div className="page">
       <div className="page-container">
         <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
           New Book
@@ -294,11 +294,13 @@ export default function Book() {
                     {book.categories.map((category) => category.name).join(", ")}
                   </TableCell>
                   {console.log(book.categories)}
-                  <TableCell align="center">
-                    <DeleteIcon onClick={() => handleDelete(book.id)} />
+                  <TableCell  align="center">
+                    <DeleteIcon onClick={() => handleDelete(book.id)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                   <TableCell align="center">
-                    <EditIcon onClick={() => handleUpdateForm(book)} />
+                    <EditIcon onClick={() => handleUpdateForm(book)} 
+                      className="mouse-pointer"/>
                   </TableCell>
                 </TableRow>
               ))}
