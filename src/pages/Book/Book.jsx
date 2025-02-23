@@ -134,7 +134,7 @@ export default function Book() {
         progressx: undefined,
       });
       setNewBook(initialBook);
-      document.location.reload();
+      //document.location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Book could not be Added", {
