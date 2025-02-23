@@ -127,7 +127,7 @@ export default function Borrow() {
         progressx: undefined,
       });
       setNewBorrow(initialBorrow);
-      document.location.reload();
+      //document.location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Borrow could not be Added", {
@@ -200,7 +200,7 @@ export default function Borrow() {
       });
       setUpdateBorrow(initialBorrow);
       setUpdate(false);
-      document.location.reload();
+      //document.location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Borrow could not be Updated", {

@@ -214,7 +214,7 @@ export default function Book() {
         progressx: undefined,
       });
       setUpdate(false);
-      document.location.reload();
+      //document.location.reload();
     } catch (error) {
       console.error;
       toast.error("Book could not be Updated", {
